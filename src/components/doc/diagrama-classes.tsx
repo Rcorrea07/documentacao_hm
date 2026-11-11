@@ -98,7 +98,7 @@ function CaixaClasse({ nome }: { nome: string }) {
   const yMet = yDiv + PAD;
 
   return (
-    <g>
+    <g data-caixa>
       <rect x={box.x} y={box.y} width={box.w} height={box.h} rx={12} className="fill-[var(--deep-2)] stroke-[color:var(--border)]" strokeWidth={1} />
       <path
         d={`M${box.x} ${box.y + CAB} V${box.y + 12} a12 12 0 0 1 12 -12 H${box.x + box.w - 12} a12 12 0 0 1 12 12 V${box.y + CAB} Z`}
@@ -141,9 +141,11 @@ function Relacao({ de, para, tipo, rotulo, multiplicidade }: (typeof relacoes)[n
   const marcadorFim = tipo === "dependencia" ? "url(#seta-aberta)" : undefined;
 
   return (
-    <g>
+    <g data-relacao>
       <path
         d={d}
+        data-traco={tipo === "dependencia" ? undefined : true}
+        pathLength={tipo === "dependencia" ? undefined : 1}
         fill="none"
         className="stroke-[var(--tinta)]"
         strokeWidth={1.5}

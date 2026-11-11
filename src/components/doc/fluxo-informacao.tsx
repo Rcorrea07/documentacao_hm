@@ -1,3 +1,5 @@
+import { DiagramaAnimado } from "@/components/motion/animacoes-secao";
+import { Revelar } from "@/components/motion/revelar";
 import { classes, demonstracao, nomeRelacao, relacoes, tiposDoDominio } from "@/content/documentacao";
 import { DiagramaClasses } from "./diagrama-classes";
 import { Secao, Sub } from "./secao";
@@ -47,36 +49,38 @@ export function FluxoInformacao() {
     <Secao
       id="fluxo-de-informacao"
       titulo="Fluxo de Informação"
-      resumo="Diagrama de Classes do domínio, igual ao código do protótipo (src/domain no app_hm). A serialização (toDados, fromDados, migrarDados) fica de fora."
+      resumo="Diagrama de Classes do domínio, igual ao código do protótipo. A serialização (toDados, fromDados, migrarDados) fica de fora."
     >
-      <div className="depth-panel overflow-hidden rounded-[28px]">
-        <div className="overflow-x-auto p-4 sm:p-6" tabIndex={0} role="region" aria-label="Diagrama de Classes, role para os lados">
+      <DiagramaAnimado className="premium-depth-card overflow-hidden rounded-[28px] md:rounded-[40px]">
+        <div className="overflow-x-auto p-4 sm:p-8" tabIndex={0} role="region" aria-label="Diagrama de Classes, role para os lados">
           <DiagramaClasses />
         </div>
-      </div>
-      <div className="mt-6">
+      </DiagramaAnimado>
+      <div className="mt-8">
         <Legenda />
       </div>
 
       <Sub>Tipos do domínio</Sub>
-      <dl className="grid gap-x-10 gap-y-4 font-mono text-sm sm:grid-cols-2">
+      <Revelar as="dl" className="grid gap-x-12 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
         {tiposDoDominio.map((t) => (
           <div key={t.nome}>
-            <dt className="text-foreground">{t.nome}</dt>
-            <dd className="text-muted-foreground">{t.valores}</dd>
+            <dt className="font-mono text-lg text-foreground">{t.nome}</dt>
+            <dd className="mt-1 font-mono text-sm text-muted-foreground">{t.valores}</dd>
           </div>
         ))}
-      </dl>
-      <p className="mt-8 max-w-[70ch] leading-relaxed text-pretty text-muted-foreground">{demonstracao}</p>
+      </Revelar>
+      <Revelar>
+        <p className="mt-14 max-w-[70ch] leading-relaxed text-pretty text-muted-foreground">{demonstracao}</p>
+      </Revelar>
 
-      <details className="group mt-10 rounded-2xl border border-border">
-        <summary className="cursor-pointer list-none rounded-2xl px-5 py-4 font-semibold transition-colors hover:bg-muted/40 [&::-webkit-details-marker]:hidden">
-          <span className="mr-2 inline-block transition-transform group-open:rotate-90" aria-hidden="true">
-            ›
+      <details className="group mt-16 rounded-3xl bg-white/[0.03]">
+        <summary className="flex cursor-pointer list-none items-center justify-between gap-4 rounded-3xl px-6 py-5 font-semibold transition-colors hover:bg-white/[0.04] [&::-webkit-details-marker]:hidden">
+          Classes e relações em texto
+          <span className="text-xl text-muted-foreground transition-transform duration-300 group-open:rotate-45" aria-hidden="true">
+            +
           </span>
-          Ver classes e relações em texto
         </summary>
-        <div className="grid gap-8 border-t border-border px-5 py-6 md:grid-cols-2">
+        <div className="grid gap-8 px-6 pt-2 pb-8 md:grid-cols-2">
           {Object.values(classes).map((c) => (
             <div key={c.nome}>
               <h4 className="font-semibold">

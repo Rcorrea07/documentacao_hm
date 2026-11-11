@@ -2,6 +2,7 @@ import { BookOpen, ExternalLink, GraduationCap, ReceiptText } from "lucide-react
 import { CinematicHero } from "@/components/ui/cinematic-landing-hero";
 import { AnaliseTarefa } from "@/components/doc/analise-tarefa";
 import { Capa } from "@/components/doc/capa";
+import { Experimente } from "@/components/doc/experimente";
 import { FluxoInformacao } from "@/components/doc/fluxo-informacao";
 import { Indice } from "@/components/doc/indice";
 import { UserStory } from "@/components/doc/user-story";
@@ -56,7 +57,9 @@ export default function Home() {
         <Wireframe />
       </main>
 
-      <footer className="border-t border-border">
+      <Experimente />
+
+      <footer className="border-t border-white/8">
         <div className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-10 text-sm text-muted-foreground md:flex-row md:justify-between md:px-8">
           <p>
             {projeto.aluno} · {projeto.matricula} · {projeto.disciplina}

@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
+import { Revelar, TituloCinematico } from "@/components/motion/revelar";
 import { telaAncora, type TelaId } from "@/content/documentacao";
 import { cn } from "@/lib/utils";
 
@@ -17,12 +18,24 @@ export function Secao({
   className?: string;
 }) {
   return (
-    <section id={id} aria-labelledby={`${id}-titulo`} className={cn("border-t border-border py-20 md:py-28", className)}>
-      <header className="mb-12 max-w-3xl md:mb-16">
-        <h2 id={`${id}-titulo`} className="text-3d-matte text-4xl font-bold tracking-tight text-balance md:text-6xl">
+    <section id={id} aria-labelledby={`${id}-titulo`} className={cn("relative py-28 md:py-40", className)}>
+      {/* Brilho azul no topo de cada seção, a luz do cartão do hero. */}
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[60vh] bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,color-mix(in_oklch,var(--deep)_55%,transparent),transparent)]"
+        aria-hidden="true"
+      />
+      <header className="mb-16 max-w-4xl md:mb-24">
+        <TituloCinematico
+          id={`${id}-titulo`}
+          className="text-3d-matte text-5xl leading-[0.95] font-bold tracking-tight text-balance md:text-7xl lg:text-[5.5rem]"
+        >
           {titulo}
-        </h2>
-        {resumo ? <p className="mt-5 text-lg leading-relaxed text-pretty text-muted-foreground md:text-xl">{resumo}</p> : null}
+        </TituloCinematico>
+        {resumo ? (
+          <Revelar atraso={0.15}>
+            <p className="mt-7 max-w-[56ch] text-lg leading-relaxed text-pretty text-muted-foreground md:text-xl">{resumo}</p>
+          </Revelar>
+        ) : null}
       </header>
       {children}
     </section>
@@ -32,26 +45,37 @@ export function Secao({
 /** Subtítulo dentro de uma seção. */
 export function Sub({ children, id }: { children: ReactNode; id?: string }) {
   return (
-    <h3 id={id} className="mt-16 mb-6 text-2xl font-semibold tracking-tight text-balance md:text-3xl">
+    <TituloCinematico
+      as="h3"
+      id={id}
+      className="mt-28 mb-10 text-3xl font-semibold tracking-tight text-balance md:mt-36 md:text-5xl"
+    >
       {children}
-    </h3>
+    </TituloCinematico>
   );
 }
 
-/** Lista de definição em linhas, usada para Input/Processamento/Feedback e afins. */
+/** Termo grande em prata, usado como âncora visual de cada passo. */
+export function Marca({ children, className }: { children: ReactNode; className?: string }) {
+  return (
+    <span className={cn("text-silver-matte block pb-1 text-6xl leading-none font-black tracking-tighter md:text-7xl", className)}>
+      {children}
+    </span>
+  );
+}
+
+/** Lista de definição em linhas. */
 export function Linhas({
   itens,
   className,
-  larguraTermo = "md:grid-cols-[11rem_1fr]",
 }: {
   itens: ReadonlyArray<{ termo: string; texto: ReactNode }>;
   className?: string;
-  larguraTermo?: string;
 }) {
   return (
-    <dl className={cn("divide-y divide-border border-y border-border", className)}>
+    <dl className={cn("divide-y divide-white/8", className)}>
       {itens.map((item) => (
-        <div key={item.termo} className={cn("grid gap-1 py-4 md:gap-6", larguraTermo)}>
+        <div key={item.termo} className="grid gap-1 py-5 md:grid-cols-[14rem_1fr] md:gap-8">
           <dt className="font-semibold text-foreground">{item.termo}</dt>
           <dd className="leading-relaxed text-pretty text-muted-foreground">{item.texto}</dd>
         </div>

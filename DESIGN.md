@@ -77,7 +77,7 @@ components:
 
 ## Overview
 
-A identidade vem do componente `CinematicHero`, escolhido pelo autor. É um cartão físico azul profundo sobre um fundo quase preto, com film grain, uma grade com máscara radial e um iPhone com aro, botões e ilha dinâmica. O hero é o único momento cinematográfico: o scroll fica fixo por 3000px enquanto o cartão sobe, o iPhone entra em 3D e a chamada final aparece. As seções abaixo são de leitura (modo Read). Elas mantêm os mesmos materiais, mas sem animação própria.
+A identidade vem do componente `CinematicHero`, escolhido pelo autor. É um cartão físico azul profundo sobre um fundo quase preto, com film grain, uma grade com máscara radial e um iPhone com aro, botões e ilha dinâmica. O hero abre com scroll fixo de 3000px: o cartão sobe, o iPhone entra em 3D e a chamada final aparece. As seções seguem a mesma linguagem com scrollytelling. O celular fica fixo à direita e troca de tela conforme o passo ativo à esquerda (critérios de aceite, operações da HTA, tarefa de ponta a ponta). Os títulos entram com o desfoque do hero, os textos longos acendem palavra por palavra, e a árvore da HTA e o diagrama se desenham. A página fecha com o protótipo ao vivo.
 
 O site é só em tema escuro, coerente com o cartão e com as capturas do app, que também estão em tema escuro.
 
@@ -117,6 +117,8 @@ O site é só em tema escuro, coerente com o cartão e com as capturas do app, q
 ## Components
 
 - `CinematicHero` (`src/components/ui/cinematic-landing-hero.tsx`): scroll fixo com GSAP ScrollTrigger e inclinação pelo mouse. Com `prefers-reduced-motion`, o cartão aparece parado e os botões passam para dentro dele.
+- `CelularRolante` (`src/components/motion/celular-rolante.tsx`): o celular fica fixo e troca de tela pelo passo ativo, com a tela antiga desfocando. O wireframe entregue aparece como papel atrás. Abaixo de lg, cada passo traz a própria tela. O tamanho segue a altura da janela.
+- `TituloCinematico`, `TextoRevelado`, `Revelar` (`src/components/motion/revelar.tsx`) e `ArvoreAnimada`, `DiagramaAnimado`, `GaleriaHorizontal` (`src/components/motion/animacoes-secao.tsx`). Todos respeitam `prefers-reduced-motion`.
 - `IPhoneFrame` (`src/components/ui/iphone-frame.tsx`): moldura com uma faixa de status de 47pt na cor do app, para a ilha dinâmica não cobrir o cabeçalho.
 - `ChipTela`: link para `#tela-N`. O cartão de destino pisca um anel de foco ao chegar (`.alvo-tela:target`).
 - `DiagramaClasses`: SVG feito à mão, com geometria fixa. Losango vazio = agregação, losango cheio = composição, traço com seta = dependência.
@@ -125,6 +127,7 @@ O site é só em tema escuro, coerente com o cartão e com as capturas do app, q
 
 - Faça: o conteúdo do projeto (texto do PDF, dados do app, telas, classes) vem de `src/content/documentacao.ts`, que espelha `referencias/conteudo-das-paginas.md`. Microtextos de interface podem ficar no componente.
 - Faça: mostre telas do app só dentro de `IPhoneFrame`, com capturas de `npm run capturas`. A exceção é o iframe ao vivo da Capa.
-- Não faça: animar a entrada de cada seção. O momento animado é o hero.
+- Faça: use `CelularRolante` sempre que um conteúdo aponta para telas; cada passo precisa de uma tela que o prove.
+- Não faça: inventar uma animação nova por seção. Use as do hero: `TituloCinematico`, `TextoRevelado`, `Revelar`, `CelularRolante`.
 - Não faça: usar o prateado em gradiente fora de títulos de destaque.
 - Não faça: criar tema claro sem refazer o cartão e as capturas.

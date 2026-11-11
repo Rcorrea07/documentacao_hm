@@ -72,16 +72,22 @@ export const justificativa = {
 export const simulacao = [
   {
     termo: "Input",
+    tela: "7" as TelaId,
+    imagem: tela07,
     texto:
       "Renda por fonte com máscara de moeda, tetos por controle deslizante e teclado numérico próprio com categoria em 1 toque. Em Outros gastos, o aluno escolhe ou cria uma subcategoria.",
   },
   {
     termo: "Processamento",
+    tela: "8" as TelaId,
+    imagem: tela08,
     texto:
       "Desconto da bolsa, parcela líquida, saldo livre, tetos que somam 100% ao centavo e comprometimento por categoria (código testado).",
   },
   {
     termo: "Feedback",
+    tela: "10" as TelaId,
+    imagem: est10teto,
     texto:
       "Sincronização com o Portal/SAE, valores animados, barras com estado (ok, atenção, estouro), alertas, confirmação e “Desfazer”.",
   },
@@ -133,12 +139,39 @@ export const historiaPartes = [
 ] as const;
 
 export const criteriosAceite = [
-  "A mensalidade líquida aparece já calculada (bruto − desconto da bolsa), sem digitação.",
-  "Com a renda informada, o saldo livre pós-mensalidade é calculado na hora; renda insuficiente bloqueia o avanço com explicação.",
-  "Os tetos de Moradia, Alimentação e Outros gastos sempre somam 100% e têm divisão sugerida (50/30/20).",
-  "Um gasto é registrado com valor + 1 toque na categoria (em Outros gastos, também a subcategoria) e atualiza a barra e o saldo restante.",
-  "Os gastos ficam só no armazenamento local do celular e podem ser apagados pelo aluno.",
-] as const;
+  {
+    texto: "A mensalidade líquida aparece já calculada (bruto − desconto da bolsa), sem digitação.",
+    tela: "5" as TelaId,
+    imagem: tela05,
+    legenda: "Tela 5 · resumo da mensalidade",
+  },
+  {
+    texto:
+      "Com a renda informada, o saldo livre pós-mensalidade é calculado na hora; renda insuficiente bloqueia o avanço com explicação.",
+    tela: "7" as TelaId,
+    imagem: est07,
+    legenda: "Tela 7 · renda insuficiente",
+  },
+  {
+    texto: "Os tetos de Moradia, Alimentação e Outros gastos sempre somam 100% e têm divisão sugerida (50/30/20).",
+    tela: "8" as TelaId,
+    imagem: tela08,
+    legenda: "Tela 8 · tetos por categoria",
+  },
+  {
+    texto:
+      "Um gasto é registrado com valor + 1 toque na categoria (em Outros gastos, também a subcategoria) e atualiza a barra e o saldo restante.",
+    tela: "10" as TelaId,
+    imagem: tela10,
+    legenda: "Tela 10 · lançar gasto",
+  },
+  {
+    texto: "Os gastos ficam só no armazenamento local do celular e podem ser apagados pelo aluno.",
+    tela: "9" as TelaId,
+    imagem: est09apagar,
+    legenda: "Tela 9 · apagar meus dados",
+  },
+];
 
 /* ----------------------------------------------------- Análise da Tarefa */
 
@@ -182,6 +215,16 @@ export const htaObjetivos = [
     telas: ["9", "10"] as TelaId[],
   },
 ] as const;
+
+/** As seis operações da HTA, cada uma com a tela que a executa. */
+export const htaOperacoes = [
+  { codigo: "1.1", objetivo: 0, titulo: "Acessar Suporte Financeiro no App Inatel", tela: "4" as TelaId, imagem: tela04 },
+  { codigo: "1.2", objetivo: 0, titulo: "Visualizar mensalidade líquida (Finatel / Fundacred / FIES)", tela: "5" as TelaId, imagem: tela05 },
+  { codigo: "2.1", objetivo: 1, titulo: "Informar renda / auxílio mensal (abatendo a parcela líquida)", tela: "7" as TelaId, imagem: tela07 },
+  { codigo: "2.2", objetivo: 1, titulo: "Definir tetos por categoria (Moradia, Alimentação, Outros gastos)", tela: "8" as TelaId, imagem: tela08 },
+  { codigo: "3.1", objetivo: 2, titulo: "Registrar despesa rápida em categoria pré-definida", tela: "10" as TelaId, imagem: tela10 },
+  { codigo: "3.2", objetivo: 2, titulo: "Consultar barra de saldo livre e comprometimento", tela: "9" as TelaId, imagem: tela09 },
+];
 
 export const planos = [
   {
