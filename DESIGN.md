@@ -117,6 +117,8 @@ O site é só em tema escuro, coerente com o cartão e com as capturas do app, q
 ## Components
 
 - `CinematicHero` (`src/components/ui/cinematic-landing-hero.tsx`): scroll fixo com GSAP ScrollTrigger e inclinação pelo mouse. Com `prefers-reduced-motion`, o cartão aparece parado e os botões passam para dentro dele.
+- `Interludio` (`src/components/motion/interludio.tsx`): um bloco de 280svh antes de cada seção, com palco fixo. Ao rolar, o próprio scroll traz o cartão do hero de baixo; ele se abre, o iPhone gira com a tela da seção, o nome entra e tudo fecha e sobe com o scroll. Com reduced motion, o bloco some.
+- `TransicaoSecoes` (`src/components/motion/transicao-secoes.tsx`): todo link `#secao` (índice e botão do hero) dispara a entrada e a saída do cartão do hero. O cartão sobe e abre, o iPhone gira com uma tela da seção e o nome entra desfocado. A página pula para a seção e o cartão sai por cima. Dura ~2 s; com reduced motion, só pula.
 - `CelularRolante` (`src/components/motion/celular-rolante.tsx`): o celular fica fixo e troca de tela pelo passo ativo, com a tela antiga desfocando. O wireframe entregue aparece como papel atrás. Abaixo de lg, cada passo traz a própria tela. O tamanho segue a altura da janela.
 - `TituloCinematico`, `TextoRevelado`, `Revelar` (`src/components/motion/revelar.tsx`) e `ArvoreAnimada`, `DiagramaAnimado`, `GaleriaHorizontal` (`src/components/motion/animacoes-secao.tsx`). Todos respeitam `prefers-reduced-motion`.
 - `IPhoneFrame` (`src/components/ui/iphone-frame.tsx`): moldura com uma faixa de status de 47pt na cor do app, para a ilha dinâmica não cobrir o cabeçalho.

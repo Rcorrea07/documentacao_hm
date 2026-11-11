@@ -18,7 +18,7 @@ export function Secao({
   className?: string;
 }) {
   return (
-    <section id={id} aria-labelledby={`${id}-titulo`} className={cn("relative py-28 md:py-40", className)}>
+    <section id={id} aria-labelledby={`${id}-titulo`} className={cn("relative py-28 outline-none md:py-40", className)}>
       {/* Brilho azul no topo de cada seção, a luz do cartão do hero. */}
       <div
         className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[60vh] bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,color-mix(in_oklch,var(--deep)_55%,transparent),transparent)]"

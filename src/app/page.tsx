@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { BookOpen, ExternalLink, GraduationCap, ReceiptText } from "lucide-react";
 import { CinematicHero } from "@/components/ui/cinematic-landing-hero";
 import { AnaliseTarefa } from "@/components/doc/analise-tarefa";
@@ -7,6 +8,8 @@ import { FluxoInformacao } from "@/components/doc/fluxo-informacao";
 import { Indice } from "@/components/doc/indice";
 import { UserStory } from "@/components/doc/user-story";
 import { Wireframe } from "@/components/doc/wireframe";
+import { Interludio } from "@/components/motion/interludio";
+import { TransicaoSecoes } from "@/components/motion/transicao-secoes";
 import { PROTOTIPO_URL, projeto } from "@/content/documentacao";
 import tela09 from "../../referencias/telas-finais/tela-09.png";
 
@@ -48,13 +51,17 @@ export default function Home() {
       />
 
       <Indice />
+      <TransicaoSecoes />
 
-      <main className="mx-auto max-w-7xl px-4 md:px-8">
-        <Capa />
-        <UserStory />
-        <AnaliseTarefa />
-        <FluxoInformacao />
-        <Wireframe />
+      <main>
+        {[Capa, UserStory, AnaliseTarefa, FluxoInformacao, Wireframe].map((SecaoDoc, i) => (
+          <Fragment key={i}>
+            <Interludio indice={i} />
+            <div className="mx-auto max-w-7xl px-4 md:px-8">
+              <SecaoDoc />
+            </div>
+          </Fragment>
+        ))}
       </main>
 
       <Experimente />
