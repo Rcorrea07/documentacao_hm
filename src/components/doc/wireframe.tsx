@@ -75,9 +75,9 @@ export function Wireframe() {
       </Revelar>
 
       <Sub id="estados-extras">Estados extras</Sub>
-      <GaleriaHorizontal rotulo="Estados extras, role para os lados">
+      <GaleriaHorizontal rotulo="Estados extras do protótipo">
         {estados.map((e) => (
-          <li key={e.titulo} className="w-[236px] shrink-0 snap-start">
+          <li key={e.titulo} className="w-[236px] shrink-0 snap-start md:w-auto">
             <figure>
               <IPhoneFrame largura={220}>
                 <Image src={e.imagem} alt={`${e.titulo} (${e.tela})`} fill sizes="220px" className="object-cover object-top" />

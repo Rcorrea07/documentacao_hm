@@ -75,47 +75,21 @@ export function DiagramaAnimado({ children, className }: { children: ReactNode; 
 }
 
 /**
- * Galeria horizontal: no computador, a seção fica fixa e a fila de telas
- * corre para o lado com o scroll. No celular, rolagem lateral nativa.
+ * Galeria de estados: no celular, fila com rolagem lateral nativa; a partir de
+ * md, grade com todos os estados à vista. Sem prender o scroll da página: o pin
+ * do GSAP aqui fazia a galeria aparecer por cima das telas do wireframe.
  */
 export function GaleriaHorizontal({ children, rotulo }: { children: ReactNode; rotulo: string }) {
-  const secaoRef = useRef<HTMLDivElement>(null);
-  const trilhoRef = useRef<HTMLUListElement>(null);
-
-  useEffect(() => {
-    const mm = gsap.matchMedia();
-    mm.add("(min-width: 1024px) and (prefers-reduced-motion: no-preference)", () => {
-      const trilho = trilhoRef.current;
-      if (!trilho) return;
-      const distancia = () => Math.max(0, trilho.scrollWidth - trilho.clientWidth);
-      gsap.to(trilho, {
-        x: () => -distancia(),
-        ease: "none",
-        scrollTrigger: {
-          trigger: secaoRef.current,
-          start: "center center",
-          end: () => `+=${distancia()}`,
-          pin: true,
-          scrub: 1,
-          invalidateOnRefresh: true,
-        },
-      });
-    });
-    return () => mm.revert();
-  }, []);
-
   return (
-    <div ref={secaoRef} className="relative lg:overflow-x-clip">
-      <div
-        className="-mx-4 overflow-x-auto px-4 pb-4 [scrollbar-width:thin] md:-mx-8 md:px-8 lg:overflow-visible"
-        tabIndex={0}
-        role="region"
-        aria-label={rotulo}
-      >
-        <ul ref={trilhoRef} className="flex w-max snap-x snap-mandatory gap-8 will-change-transform lg:w-auto">
-          {children}
-        </ul>
-      </div>
+    <div
+      className="-mx-4 overflow-x-auto px-4 pb-4 [scrollbar-width:thin] md:mx-0 md:overflow-visible md:px-0 md:pb-0"
+      tabIndex={0}
+      role="region"
+      aria-label={rotulo}
+    >
+      <ul className="flex w-max snap-x snap-mandatory gap-6 md:grid md:w-auto md:grid-cols-[repeat(auto-fill,minmax(236px,1fr))] md:gap-x-8 md:gap-y-14">
+        {children}
+      </ul>
     </div>
   );
 }
