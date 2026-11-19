@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import localFont from "next/font/local";
 import type { CSSProperties, ReactNode } from "react";
 import Image, { type StaticImageData } from "next/image";
 import { DiagramaClasses, areaLivreLarga } from "@/components/doc/diagrama-classes";
@@ -25,9 +26,27 @@ import {
   usabilidade,
   type Tela,
 } from "@/content/documentacao";
+// Fontes estáticas em TrueType. A Geist variável (e a estática, que é CFF) sai como
+// Type 3 no PDF do Chromium, com espaçamento quebrado no Preview do Mac.
+// fontes/geist-sans-*.woff2: instâncias fixas (wght 400–800) da Geist variável latina do
+// Google Fonts, a mesma do site, geradas com fontTools.varLib.instancer.
+import "@fontsource/geist-mono/400.css";
+import "@fontsource/geist-mono/600.css";
 import tela05 from "../../../referencias/telas-finais/tela-05.png";
 import tela09 from "../../../referencias/telas-finais/tela-09.png";
 import tela10 from "../../../referencias/telas-finais/tela-10.png";
+
+const geistPdf = localFont({
+  src: [
+    { path: "./fontes/geist-sans-400.woff2", weight: "400" },
+    { path: "./fontes/geist-sans-500.woff2", weight: "500" },
+    { path: "./fontes/geist-sans-600.woff2", weight: "600" },
+    { path: "./fontes/geist-sans-700.woff2", weight: "700" },
+    { path: "./fontes/geist-sans-800.woff2", weight: "800" },
+  ],
+  variable: "--font-pdf-sans",
+  display: "block",
+});
 
 export const metadata: Metadata = {
   title: "Projeto Final · PDF de entrega",
@@ -101,7 +120,7 @@ function SlideCapa() {
           <p className="mt-[44px] text-[17px] font-bold tracking-wide text-[#0166c0] uppercase">
             {projeto.subtitulo} · {projeto.eixo}
           </p>
-          <h1 className="mt-[8px] text-[64px] leading-[1] font-extrabold tracking-[-0.03em]">{projeto.titulo}</h1>
+          <h1 className="mt-[8px] text-[60px] leading-[1] font-extrabold tracking-[-0.03em] whitespace-nowrap">{projeto.titulo}</h1>
 
           <p className="mt-[28px] max-w-[60ch] text-[21px] leading-[1.5] text-pretty">
             {justificativa.antes} <strong>“{citacaoPersona}”</strong> {justificativa.depois}
@@ -237,22 +256,22 @@ function SlideAnaliseTarefa() {
         </div>
         <div className="relative h-[30px]" aria-hidden="true">
           <div className="absolute top-0 left-1/2 h-[15px] w-[2px] bg-[#9aa8bd]" />
-          <div className="absolute top-[15px] right-[16.66%] left-[16.66%] h-[2px] bg-[#9aa8bd]" />
+          <div className="absolute top-[15px] right-[calc((100%-64px)/6)] left-[calc((100%-64px)/6)] h-[2px] bg-[#9aa8bd]" />
         </div>
         <ol className="grid grid-cols-3 gap-[32px]">
           {htaObjetivos.map((o) => (
             <li key={o.codigo} className="relative">
               <div className="absolute -top-[15px] left-1/2 h-[15px] w-[2px] bg-[#9aa8bd]" aria-hidden="true" />
               <div className="rounded-[12px] border border-[#c5cfdd] px-[18px] py-[12px]">
-                <p className="text-[18px] font-bold">
+                <p className="text-[20px] font-bold">
                   {o.codigo}. {o.titulo}
                 </p>
-                <p className="text-[14.5px] text-[#4b5563]">
+                <p className="text-[16px] text-[#4b5563]">
                   {o.plano} · Telas {o.telas.join(", ")}
                 </p>
                 <ol className="mt-[8px] space-y-[4px]">
                   {o.passos.map((p) => (
-                    <li key={p.codigo} className="grid grid-cols-[38px_1fr] text-[15.5px] leading-[1.35]">
+                    <li key={p.codigo} className="grid grid-cols-[42px_1fr] text-[17px] leading-[1.35]">
                       <span className="font-mono font-semibold text-[#0166c0]">{p.codigo}</span>
                       <span>{p.titulo}</span>
                     </li>
@@ -263,7 +282,7 @@ function SlideAnaliseTarefa() {
           ))}
         </ol>
 
-        <div className="mt-[16px] grid grid-cols-2 gap-[32px] text-[15px] leading-[1.4]">
+        <div className="mt-[18px] grid grid-cols-2 gap-[32px] text-[16.5px] leading-[1.42]">
           {planos.map((p) => (
             <p key={p.termo}>
               <strong>{p.termo}:</strong> <span className="text-[#374151]">{p.texto}</span>
@@ -271,15 +290,15 @@ function SlideAnaliseTarefa() {
           ))}
         </div>
 
-        <table className="mt-[16px] w-full border-collapse text-left text-[14.5px] leading-[1.35]">
+        <table className="mt-[20px] w-full border-collapse text-left text-[16px] leading-[1.38]">
           <caption className="mb-[6px] caption-top text-left text-[16px] font-bold text-[#0166c0] uppercase">
             Tabela 2 — Planos, entradas, feedbacks, problemas previstos e recomendações
           </caption>
           <thead>
             <tr className="bg-[#0166c0] text-white">
-              <th className="w-[15%] px-[10px] py-[7px] font-semibold">Objetivo</th>
+              <th className="w-[15%] px-[12px] py-[9px] font-semibold">Objetivo</th>
               {colunasTabela2.map((c) => (
-                <th key={c.chave} className="px-[10px] py-[7px] font-semibold">
+                <th key={c.chave} className="px-[12px] py-[9px] font-semibold">
                   {c.rotulo}
                 </th>
               ))}
@@ -288,22 +307,22 @@ function SlideAnaliseTarefa() {
           <tbody>
             {tabela2.map((l) => (
               <tr key={l.objetivo} className="border-b border-[#e5e9f0] align-top">
-                <th scope="row" className="px-[10px] py-[7px] font-semibold">
+                <th scope="row" className="px-[12px] py-[9px] font-semibold">
                   {l.objetivo}
                   <span className="block font-normal text-[#0166c0]">Telas {l.telas.join(", ")}</span>
                 </th>
-                <td className="px-[10px] py-[7px] text-[#374151]">
+                <td className="px-[12px] py-[9px] text-[#374151]">
                   {l.plano} <em className="not-italic text-[#111827]">Input:</em> {l.input}
                 </td>
-                <td className="px-[10px] py-[7px] text-[#374151]">{l.feedback}</td>
-                <td className="px-[10px] py-[7px] text-[#374151]">{l.problema}</td>
-                <td className="px-[10px] py-[7px] text-[#374151]">{l.recomendacao}</td>
+                <td className="px-[12px] py-[9px] text-[#374151]">{l.feedback}</td>
+                <td className="px-[12px] py-[9px] text-[#374151]">{l.problema}</td>
+                <td className="px-[12px] py-[9px] text-[#374151]">{l.recomendacao}</td>
               </tr>
             ))}
           </tbody>
         </table>
 
-        <div className="mt-auto grid grid-cols-3 gap-[32px] pt-[12px] text-[14.5px] leading-[1.4]">
+        <div className="mt-auto grid grid-cols-3 gap-[32px] pt-[12px] text-[16px] leading-[1.42]">
           {usabilidade.map((u) => (
             <p key={u.termo}>
               <strong className="text-[#0166c0]">{u.termo} (NBR ISO 9241-11):</strong> <span className="text-[#374151]">{u.texto}</span>
@@ -373,7 +392,7 @@ function SlideFluxo() {
             ))}
           </ul>
           <p className="mt-[6px]">
-            <span className="font-semibold text-[#0a6fd1]">★</span> acrescentado depois da entrega do diagrama ·{" "}
+            <span className="font-mono text-[#0a6fd1]">★</span> acrescentado depois da entrega do diagrama ·{" "}
             <span className="font-mono">/</span> atributo derivado
           </p>
 
@@ -439,7 +458,7 @@ function CartaoTela({ tela }: { tela: Tela }) {
         </figure>
       </div>
       <p className="mt-[6px] text-[12.5px] leading-[1.3] text-[#374151]">
-        <span className="font-semibold text-[#111827]">→ </span>
+        <span className="text-[#111827]">→ </span>
         {tela.navegacao}
       </p>
     </li>
@@ -472,10 +491,13 @@ function SlideWireframe() {
 
 export default function Entrega() {
   return (
-    <main className="entrega-pdf bg-[#e5e7eb] [font-family:var(--font-geist-sans)]">
+    <main className={`entrega-pdf bg-[#e5e7eb] font-sans ${geistPdf.variable}`}>
       <style>{`
         @page { margin: 0; }
         html, body { background: #e5e7eb !important; }
+        .entrega-pdf { --font-geist-sans: var(--font-pdf-sans), sans-serif; --font-geist-mono: 'Geist Mono', monospace; }
+        /* Sem isso o Chromium arredonda larguras em texto pequeno e abre vãos ("INAT EL") no PDF. */
+        .entrega-pdf { text-rendering: geometricPrecision; }
         .entrega-pdf .slide { margin: 0 auto; }
         .entrega-pdf .slide:not(:last-child) { break-after: page; }
         .diagrama-claro svg text[class*="opacity-80"] { fill: #dbe7f7; opacity: 1; }
