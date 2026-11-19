@@ -24,10 +24,13 @@ export type Passo = {
   conteudo: ReactNode;
 };
 
-/** Largura da tela do celular: cabe na altura da janela, entre 210 e 300 px. */
+/**
+ * Largura da tela do celular para caber na altura da janela, com a legenda e
+ * os botões de passo à vista. Altura do aparelho ≈ 2,285 × largura + aro.
+ */
 function larguraPelaAltura(alturaJanela: number) {
-  const disponivel = alturaJanela - 64 - 150; // índice fixo + legenda e trilho
-  return Math.round(Math.min(300, Math.max(210, (disponivel * 390) / 905)));
+  const disponivel = alturaJanela - 64 - 32 - 132; // índice fixo, respiro, legenda + botões
+  return Math.round(Math.min(300, Math.max(130, (disponivel - 14) / 2.285)));
 }
 
 /**
@@ -41,10 +44,14 @@ export function CelularRolante({ passos, comWireframe = false }: { passos: Passo
   const itensRef = useRef<Array<HTMLLIElement | null>>([]);
   const raizRef = useRef<HTMLDivElement>(null);
   const celularRef = useRef<HTMLDivElement>(null);
+  // Enquanto a rolagem de um clique no trilho anda, o celular fica no destino
+  // em vez de passar por todas as telas do meio.
+  const navegando = useRef<number | null>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entradas) => {
+        if (navegando.current !== null) return;
         for (const e of entradas) {
           if (e.isIntersecting) setAtivo(Number((e.target as HTMLElement).dataset.indice));
         }
@@ -80,8 +87,24 @@ export function CelularRolante({ passos, comWireframe = false }: { passos: Passo
     return () => mm.revert();
   }, []);
 
+  const soltarRef = useRef<() => void>(() => {});
+
+  const soltar = () => {
+    window.removeEventListener("scrollend", soltarRef.current);
+    if (navegando.current !== null) window.clearTimeout(navegando.current);
+    navegando.current = null;
+  };
+
+  useEffect(() => () => soltarRef.current(), []);
+
   const irPara = (i: number) => {
     const reduzir = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    soltarRef.current();
+    setAtivo(i);
+    soltarRef.current = soltar;
+    // scrollend não existe em todo Safari: o tempo-limite garante a soltura.
+    navegando.current = window.setTimeout(soltar, 1200);
+    window.addEventListener("scrollend", soltar, { once: true });
     itensRef.current[i]?.scrollIntoView({ block: "center", behavior: reduzir ? "auto" : "smooth" });
   };
 
@@ -124,7 +147,8 @@ export function CelularRolante({ passos, comWireframe = false }: { passos: Passo
           <div className="relative" style={{ perspective: "1200px" }}>
             {comWireframe ? (
               <div
-                className="absolute top-10 -left-36 w-44 -rotate-6 rounded-2xl bg-[#e9edf5] p-2 shadow-[0_30px_60px_-20px_rgba(0,0,0,0.9)] transition-opacity duration-500 xl:-left-44 xl:w-48"
+                className="absolute top-[6%] hidden -rotate-6 rounded-2xl bg-[#e9edf5] p-2 shadow-[0_30px_60px_-20px_rgba(0,0,0,0.9)] xl:block"
+                style={{ width: Math.round(largura * 0.64), left: -Math.round(largura * 0.6) }}
                 aria-hidden="true"
               >
                 <div className="relative aspect-[424/827] overflow-hidden rounded-xl bg-white">
@@ -137,8 +161,8 @@ export function CelularRolante({ passos, comWireframe = false }: { passos: Passo
                         fill
                         sizes="192px"
                         className={cn(
-                          "object-contain transition-[opacity,transform] duration-500 ease-[var(--ease-out-strong)]",
-                          i === ativo ? "scale-100 opacity-100" : "scale-[0.97] opacity-0",
+                          "object-contain transition-[opacity,visibility] duration-300 ease-[var(--ease-out-strong)]",
+                          i === ativo ? "visible opacity-100" : "invisible opacity-0",
                         )}
                       />
                     ) : null,
@@ -153,7 +177,7 @@ export function CelularRolante({ passos, comWireframe = false }: { passos: Passo
               </div>
             ) : null}
 
-            <div ref={celularRef} className="will-change-transform" style={{ transformStyle: "preserve-3d" }}>
+            <div ref={celularRef}>
               <IPhoneFrame largura={largura}>
                 {passos.map((p, i) => (
                   <Image
@@ -164,8 +188,8 @@ export function CelularRolante({ passos, comWireframe = false }: { passos: Passo
                     fill
                     sizes="300px"
                     className={cn(
-                      "object-cover object-top transition-[opacity,transform,filter] duration-500 ease-[var(--ease-out-strong)]",
-                      i === ativo ? "scale-100 opacity-100 blur-0" : "scale-[1.03] opacity-0 blur-[6px]",
+                      "object-cover object-top transition-[opacity,visibility] duration-300 ease-[var(--ease-out-strong)]",
+                      i === ativo ? "visible opacity-100" : "invisible opacity-0",
                     )}
                   />
                 ))}
