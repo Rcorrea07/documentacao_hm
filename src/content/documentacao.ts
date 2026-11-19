@@ -575,11 +575,11 @@ export const mudancasDoApp = [
 
 export const estados: Array<{ titulo: string; tela: string; imagem: StaticImageData }> = [
   { titulo: "Sincronizando com o Portal/SAE", tela: "Telas 5 a 10", imagem: est05 },
-  { titulo: "Renda insuficiente: Continuar bloqueado", tela: "Tela 7", imagem: est07 },
+  { titulo: "Renda insuficiente: alerta e Continuar bloqueado", tela: "Tela 7", imagem: est07 },
   { titulo: "Orçamento vazio com chamada para planejar", tela: "Tela 9", imagem: est09vazio },
   { titulo: "Gasto removido com “Desfazer”", tela: "Tela 9", imagem: est09desfazer },
   { titulo: "Apagar meus dados, com confirmação", tela: "Tela 9", imagem: est09apagar },
-  { titulo: "Aviso antes de passar do teto", tela: "Tela 10", imagem: est10teto },
+  { titulo: "Aviso antes de passar do teto, com confirmação", tela: "Tela 10", imagem: est10teto },
   { titulo: "Nova subcategoria em Outros gastos", tela: "Tela 10", imagem: est10sub },
 ];
 
