@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "capturas": "node scripts/capturas.mjs"
+    "capturas": "node scripts/capturas.mjs",
+    "pdf": "next build && node scripts/pdf.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
