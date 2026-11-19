@@ -45,10 +45,10 @@ export function SlideSecao({ indice, className, eager }: { indice: number; class
         </p>
       </div>
       <div data-celular className="order-1 will-change-transform md:order-2" style={{ transformStyle: "preserve-3d" }}>
-        <IPhoneFrame largura={210} className="md:hidden">
+        <IPhoneFrame largura={210} className="md:hidden [@media(max-height:720px)]:[zoom:0.78]">
           <Image src={s.imagem} alt="" fill sizes="210px" loading={eager ? "eager" : undefined} className="object-cover object-top" />
         </IPhoneFrame>
-        <IPhoneFrame largura={260} className="hidden md:block">
+        <IPhoneFrame largura={260} className="hidden md:block [@media(max-height:760px)]:[zoom:0.7]">
           <Image src={s.imagem} alt="" fill sizes="260px" loading={eager ? "eager" : undefined} className="object-cover object-top" />
         </IPhoneFrame>
       </div>
